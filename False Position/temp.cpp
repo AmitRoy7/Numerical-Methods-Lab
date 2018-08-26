@@ -10,35 +10,37 @@ FILE *fp1,*fp2;
 
 double func(double x)
 {
-    return (x*x*x) - (x*x)-11*x+12.0;
+    return x*tan(x) - 3.0;
 }
 
 
 
-double bisection_method(double lo,double hi)
+double falseposition_method(double lo,double hi)
 {
 
 
     double prev,present,f,relative_approx_error;
     int cnt = 1;
-    prev = (hi+lo)/2.0;
+
+    prev=(hi*func(lo) - lo*func(lo))/(func(lo)-func(hi)) + lo;
     f = func(prev);
-    fprintf(fp2,"Iteration\tXl\tXu\tXr\tRelative Apporximate Error\n");
-    fprintf(fp2,"%d\t%0.6lf\t%0.6lf\t%0.6lf\n",cnt,lo,hi,prev);
+
+    printf("Iteration\tXl\tXu\tf(Xl)\tf(Xu)\tXr\tRelative Apporximate Error\n");
+    printf("%d\t%0.6lf\t%0.6lf\t%0.6lf\t%0.6lf\t%0.6lf\t%0.6lf\n",cnt,lo,hi,func(lo),func(hi),prev,func(prev));
     cnt++;
 
     if(!f)  return prev;
     else if(f * func(hi) > 0)            hi = prev;
-    else if(f * func(lo) > 0)           lo = prev;
+    else if(f * func(lo) > 0)            lo = prev;
 
     while(1)
     {
-        present = (hi+lo)/2.0;
+        present =(hi*func(lo) - lo*func(lo))/(func(lo)-func(hi)) + lo;
         f = func(present);
 
         relative_approx_error = fabs((present-prev)*100.00/present);
 
-        fprintf(fp2,"%d\t%0.6lf\t%0.6lf\t%0.6lf\t%0.7lf\n",cnt,lo,hi,present,relative_approx_error);
+        printf("%d %0.6lf %0.6lf %0.6lf %0.6lf %0.6lf %0.6lf %0.6lf\n",cnt,lo,hi,func(lo),func(hi),present,func(present),relative_approx_error);
 
         cnt++;
 
@@ -59,7 +61,7 @@ int main()
 
     printf("x\tF(x)\n");
     fprintf(fp1,"x\tF(x)\n");
-    for(double i=-1.0;i<=1.0;i+=0.1)
+    for(double i=-1.0;i<=4.1;i+=0.1)
     {
 
         printf("%0.2lf\t%0.6lf\n",i,func(i));
@@ -67,7 +69,7 @@ int main()
 
     }
     scanf("%lf %lf %lf",&lo,&hi,&accuracy);
-    double root = bisection_method(lo,hi);
+    double root = falseposition_method(lo,hi);
     printf("Root of the equation: %0.6lf\n",root);
     fclose(fp1);
     fclose(fp2);

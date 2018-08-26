@@ -3,19 +3,19 @@ using namespace std;
 
 double f(double x)
 {
-    return (x-4.0)*(x-4.0)*(x+2.0);
+    return (x*x)*exp(-x) - 0.5;
 }
 
 double fprime(double x)
 {
-    return (3.0*x*x - 12.0*x);
+    return 2*x*exp(-x) - (x*x)*(exp(-x));
 }
 
 int main ()
 {
-    double prev=-2.3,present = -2.3;
+    double prev=0.2,present = 0.2;
     int cnt =0;
-    while(++cnt<=5)
+    while(++cnt<=6)
     {
         double fx = f(present);
         double fxx = fprime(present);
